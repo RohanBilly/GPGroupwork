@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,12 +11,13 @@ public class PlayerManager : MonoBehaviour
     
     public CameraManager cameraManager;
     PlayerLocomotion playerLocomotion;
-
+    public Vector3 spawnPoint;
     public bool isInteracting;
     public int health;
 
     private void Awake()
     {
+        spawnPoint = new Vector3(28.9899998f, 1.37f, -40.9000015f);
         health = 15;
         animatorManager = GetComponent<AnimatorManager>();
         inputManager = GetComponent<InputManager>();
@@ -45,7 +47,7 @@ public class PlayerManager : MonoBehaviour
         health = health - 1;
         if (health < 0)
         {
-            transform.position = new UnityEngine.Vector3(0, 10, 0);
+            transform.position = spawnPoint;
             health = 15;
         }
         

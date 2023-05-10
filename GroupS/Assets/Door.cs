@@ -4,15 +4,26 @@ using UnityEngine;
 
 public class Door : MonoBehaviour
 {
-
+    PlayerManager playerManager;
+    public GameObject enemyOne;
+    EnemyAI enemyOneBrain;
+    public GameObject enemyTwo;
+    EnemyAI enemyTwoBrain;
     public bool open;
     private bool moving;
+    private bool enemyOneDead;
+    private bool enemyTwoDead;
     private int steps;
+    public bool enemyDoor;
 
     
     private void Start()
     {
-       
+        playerManager = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerManager>();
+        enemyOneBrain = enemyOne.GetComponent<EnemyAI>();
+        enemyTwoBrain = enemyTwo.GetComponent<EnemyAI>();
+        enemyOneDead = false;
+        enemyTwoDead = false;
         moving = false;
         steps = 0;
         
@@ -21,6 +32,24 @@ public class Door : MonoBehaviour
     
     private void FixedUpdate()
     {
+     if (enemyDoor)
+        {
+            if (enemyOneBrain.dead)
+            {
+                enemyOneDead = true;
+
+            }
+            if (enemyTwoBrain.dead)
+            {
+                enemyTwoDead = true;
+            }
+            if(enemyOneDead && enemyTwoDead)
+            {
+                Toggle();
+                playerManager.spawnPoint = new Vector3(28.9899998f, 8.93000031f, -180.710007f);
+                enemyDoor = false;
+            }
+        }   
         if(open == true && moving == true)
         {
             if (steps == 89)

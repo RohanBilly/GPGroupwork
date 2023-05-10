@@ -14,6 +14,7 @@ public class EnemyAI : MonoBehaviour
     private float hitTimer;
     private bool attack;
     private float health;
+    public bool dead;
     public float maxHealth;
     public bool split;
     private UnityEngine.Vector3 attackPosition;
@@ -46,6 +47,7 @@ public class EnemyAI : MonoBehaviour
     private Slider slider;
     void Start()
     {
+        dead = false;
         cubeMan = Resources.Load("CubeMan") as GameObject;
         healthBarUI = transform.GetComponentInChildren<Canvas>().gameObject;
         slider = healthBarUI.GetComponentInChildren(typeof(Slider)) as Slider;
@@ -81,7 +83,7 @@ public class EnemyAI : MonoBehaviour
         slider.value = health / maxHealth;
         if (health< 0)
         {
-            
+            dead = true;
             Destroy(gameObject);
             if (split)
             {
@@ -107,12 +109,16 @@ public class EnemyAI : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (doDamage)
+        if (other.tag == "Player")
         {
-            player.GetComponent<PlayerManager>().DoDamage();
-            doDamage = false;
-            
+            if (doDamage)
+            {
+                player.GetComponent<PlayerManager>().DoDamage();
+                doDamage = false;
+
+            }
         }
+        
          
     }
 
