@@ -379,6 +379,7 @@
 "Assets/ExplosiveLLC/SuperCharacterController/Code/Examples/PlayerMachineDebug.cs"
 "Assets/ExplosiveLLC/SuperCharacterController/Code/Examples/SimpleStateMachine.cs"
 "Assets/ExplosiveLLC/SuperCharacterController/Code/Math3d.cs"
+"Assets/KillZone.cs"
 "Assets/ParticleToggler.cs"
 "Assets/PlayerControls.cs"
 "Assets/PreassurePlate.cs"

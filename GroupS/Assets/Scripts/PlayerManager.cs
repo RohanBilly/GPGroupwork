@@ -45,17 +45,18 @@ public class PlayerManager : MonoBehaviour
         health = health - 1;
         animatorManager.PlayTargetAnimation("GetHit", false);
         health = health - 1;
-        if (health < 0)
-        {
-            transform.position = spawnPoint;
-            health = 15;
-        }
+        
         
     }
 
     private void FixedUpdate()
     {
         playerLocomotion.HandleAllMovement();
+        if (health < 0)
+        {
+            transform.position = spawnPoint;
+            health = 15;
+        }
     }
 
     private void LateUpdate()

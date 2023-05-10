@@ -17,6 +17,7 @@ public class EnemyAI : MonoBehaviour
     public bool dead;
     public float maxHealth;
     public bool split;
+    public int attackRange;
     private UnityEngine.Vector3 attackPosition;
     private UnityEngine.Vector3 attackStartPoint;
     float pauseTimer;
@@ -47,6 +48,7 @@ public class EnemyAI : MonoBehaviour
     private Slider slider;
     void Start()
     {
+        if (attackRange == 0) { attackRange = 4; }
         dead = false;
         cubeMan = Resources.Load("CubeMan") as GameObject;
         healthBarUI = transform.GetComponentInChildren<Canvas>().gameObject;
@@ -77,33 +79,40 @@ public class EnemyAI : MonoBehaviour
     public void Hit()
     {
         hitTimer += Time.deltaTime;
-       
+
         health = health - 1;
 
         slider.value = health / maxHealth;
-        if (health< 0)
+        if (health < 0)
         {
             dead = true;
-            Destroy(gameObject);
-            if (split)
+            if (maxHealth == 20)
             {
-                GameObject NewCubeA = Instantiate(cubeMan, new UnityEngine.Vector3(transform.position.x + 5, transform.position.y, transform.position.z), UnityEngine.Quaternion.identity);
-                NewCubeA.transform.localScale = new UnityEngine.Vector3(1.2f, 1.2f, 1.2f);
-                NewCubeA.GetComponent<EnemyAI>().maxHealth = 3;
-                NewCubeA.GetComponent<EnemyAI>().split = false;
-                GameObject NewCubeB = Instantiate(cubeMan, new UnityEngine.Vector3(transform.position.x - 5, transform.position.y, transform.position.z), UnityEngine.Quaternion.identity);
-                NewCubeB.transform.localScale = new UnityEngine.Vector3(1.2f, 1.2f, 1.2f);
-                NewCubeB.GetComponent<EnemyAI>().maxHealth = 3;
-                NewCubeB.GetComponent<EnemyAI>().split = false;
+                Debug.Log("HERE");
+                player.GetComponent<PlayerManager>().spawnPoint = new UnityEngine.Vector3(-173.990005f, 86.8099976f, -242.669998f);
             }
-            
-           
+
+                Destroy(gameObject);
+                if (split)
+                {
+                    GameObject NewCubeA = Instantiate(cubeMan, new UnityEngine.Vector3(transform.position.x + 5, transform.position.y, transform.position.z), UnityEngine.Quaternion.identity);
+                    NewCubeA.transform.localScale = new UnityEngine.Vector3(1.2f, 1.2f, 1.2f);
+                    NewCubeA.GetComponent<EnemyAI>().maxHealth = 3;
+                    NewCubeA.GetComponent<EnemyAI>().split = false;
+                    GameObject NewCubeB = Instantiate(cubeMan, new UnityEngine.Vector3(transform.position.x - 5, transform.position.y, transform.position.z), UnityEngine.Quaternion.identity);
+                    NewCubeB.transform.localScale = new UnityEngine.Vector3(1.2f, 1.2f, 1.2f);
+                    NewCubeB.GetComponent<EnemyAI>().maxHealth = 3;
+                    NewCubeB.GetComponent<EnemyAI>().split = false;
+                }
+
+
+            }
+            if (health < maxHealth)
+            {
+                healthBarUI.SetActive(true);
+            }
         }
-       if (health < maxHealth)
-        {
-            healthBarUI.SetActive(true);
-        }
-    }
+    
 
     
 
@@ -244,7 +253,7 @@ public class EnemyAI : MonoBehaviour
             playerPosition = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
             adjustedPlayerPosition = new UnityEngine.Vector3(playerPosition.position.x, transform.position.y, playerPosition.position.z);
 
-            if (distanceFromPlayer < 20 && distanceFromPlayer > 4)
+            if (distanceFromPlayer < 20 && distanceFromPlayer > attackRange)
             {
                 transform.position = UnityEngine.Vector3.MoveTowards(startPosition.position, adjustedPlayerPosition, 5 * Time.deltaTime);
 
@@ -253,7 +262,7 @@ public class EnemyAI : MonoBehaviour
 
 
             }
-            else if (distanceFromPlayer < 4)
+            else if (distanceFromPlayer < attackRange)
             {
                 attackPosition = adjustedPlayerPosition;
                 attackStartPoint = transform.position;

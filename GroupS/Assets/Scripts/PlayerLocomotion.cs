@@ -66,7 +66,7 @@ public class PlayerLocomotion : MonoBehaviour
             sprintingSpeed = 22;
 
             speedBoostTimer = speedBoostTimer + Time.deltaTime;
-            if (speedBoostTimer > 5)
+            if (speedBoostTimer > 7)
             {
                 speedBoost = false;
                 speedBoostTimer = 0;

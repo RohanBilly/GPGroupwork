@@ -46,7 +46,7 @@ public class Door : MonoBehaviour
             if(enemyOneDead && enemyTwoDead)
             {
                 Toggle();
-                playerManager.spawnPoint = new Vector3(28.9899998f, 8.93000031f, -180.710007f);
+                playerManager.spawnPoint = new Vector3(10.71f, 5.5f, -300.408997f);
                 enemyDoor = false;
             }
         }   
